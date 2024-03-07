@@ -31,6 +31,23 @@ func RelayTextHelper(c *gin.Context) *model.ErrorWithStatusCode {
 	// map model name
 	var isModelMapped bool
 	meta.OriginModelName = textRequest.Model
+	if meta.ChannelType == common.ChannelTypeAzure {
+		// 解析 deployment_name 和 model_name
+		channelConfigData, exists := c.Get(common.ConfigKey)
+		if !exists {
+			return openai.ErrorWrapper(fmt.Errorf("azure config not found"), "config_not_found", http.StatusInternalServerError)
+		}
+		channelConfigDataStr, ok := channelConfigData.(string)
+		if !ok {
+			return openai.ErrorWrapper(fmt.Errorf("invalid azure config"), "invalid_config", http.StatusInternalServerError)
+		}
+		deploymentConfig, err := openai.ExtractAzureDeploymentConfig(channelConfigDataStr, textRequest.Model)
+		if err != nil {
+			return openai.ErrorWrapper(err, "extract_azure_deployment_config_failed", http.StatusInternalServerError)
+		}
+		meta.DeploymentName = deploymentConfig.DeploymentName
+		meta.APIVersion = deploymentConfig.ApiVersion
+	}
 	textRequest.Model, isModelMapped = util.GetMappedModelName(textRequest.Model, meta.ModelMapping)
 	meta.ActualModelName = textRequest.Model
 	// get model ratio & group ratio

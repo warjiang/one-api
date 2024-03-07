@@ -25,7 +25,8 @@ type RelayMeta struct {
 	OriginModelName string
 	ActualModelName string
 	RequestURLPath  string
-	PromptTokens    int // only for DoResponse
+	PromptTokens    int    // only for DoResponse
+	DeploymentName  string // only for azure
 }
 
 func GetRelayMeta(c *gin.Context) *RelayMeta {

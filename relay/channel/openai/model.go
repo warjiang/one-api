@@ -1,6 +1,8 @@
 package openai
 
-import "github.com/songquanpeng/one-api/relay/model"
+import (
+	"github.com/songquanpeng/one-api/relay/model"
+)
 
 type TextContent struct {
 	Type string `json:"type,omitempty"`
@@ -140,4 +142,15 @@ type CompletionsStreamResponse struct {
 		Text         string `json:"text"`
 		FinishReason string `json:"finish_reason"`
 	} `json:"choices"`
+}
+
+// for azure
+
+type DeploymentConfig struct {
+	DeploymentName string `json:"deployment_name"`
+	ModelName      string `json:"model_name"`
+	ApiVersion     string `json:"api_version"`
+}
+type AzureChannelConfig struct {
+	DeploymentConfigs []DeploymentConfig `json:"deployment_configs"`
 }

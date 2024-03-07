@@ -103,6 +103,7 @@ var ChannelBaseURLs = []string{
 
 const (
 	ConfigKeyPrefix = "cfg_"
+	ConfigKey       = "cfg"
 
 	ConfigKeyAPIVersion = ConfigKeyPrefix + "api_version"
 	ConfigKeyLibraryID  = ConfigKeyPrefix + "library_id"

@@ -105,8 +105,11 @@ func SetupContextForSelectedChannel(c *gin.Context, channel *model.Channel, mode
 	case common.ChannelTypeAli:
 		c.Set(common.ConfigKeyPlugin, channel.Other)
 	}
-	cfg, _ := channel.LoadConfig()
-	for k, v := range cfg {
-		c.Set(common.ConfigKeyPrefix+k, v)
-	}
+	/*
+		cfg, _ := channel.LoadConfig()
+		for k, v := range cfg {
+			c.Set(common.ConfigKeyPrefix+k, v)
+		}
+	*/
+	c.Set(common.ConfigKey, channel.Config)
 }

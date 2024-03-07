@@ -33,14 +33,14 @@ func (a *Adaptor) GetRequestURL(meta *util.RelayMeta) (string, error) {
 		requestURL := strings.Split(meta.RequestURLPath, "?")[0]
 		requestURL = fmt.Sprintf("%s?api-version=%s", requestURL, meta.APIVersion)
 		task := strings.TrimPrefix(requestURL, "/v1/")
-		model_ := meta.ActualModelName
-		model_ = strings.Replace(model_, ".", "", -1)
+		//model_ := meta.ActualModelName
+		//model_ = strings.Replace(model_, ".", "", -1)
 		// https://github.com/songquanpeng/one-api/issues/67
-		model_ = strings.TrimSuffix(model_, "-0301")
-		model_ = strings.TrimSuffix(model_, "-0314")
-		model_ = strings.TrimSuffix(model_, "-0613")
+		//model_ = strings.TrimSuffix(model_, "-0301")
+		//model_ = strings.TrimSuffix(model_, "-0314")
+		//model_ = strings.TrimSuffix(model_, "-0613")
 
-		requestURL = fmt.Sprintf("/openai/deployments/%s/%s", model_, task)
+		requestURL = fmt.Sprintf("/openai/deployments/%s/%s", meta.DeploymentName, task)
 		return util.GetFullRequestURL(meta.BaseURL, requestURL, meta.ChannelType), nil
 	case common.ChannelTypeMinimax:
 		return minimax.GetRequestURL(meta)
